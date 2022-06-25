@@ -56,7 +56,6 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.HolderPost> {
         Document document = Jsoup.parse(content);
 
         //date formatting
-
         String gmtDate = published;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); //   2022-06-06T06:53:00-07:00
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy K:mm a"); // 06/06/2022 15:53
@@ -71,6 +70,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.HolderPost> {
             e.printStackTrace();
         }
 
+        //set data
         holder.postTitle.setText(title);
         holder.postDesc.setText(document.text());
         holder.regionName.setText("By: " + authorName + " " + formattedDate);

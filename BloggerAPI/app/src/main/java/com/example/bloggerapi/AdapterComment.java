@@ -32,7 +32,6 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
     public HolderComment onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate row_comment layout
         View view = LayoutInflater.from(context).inflate(R.layout.row_comment, parent, false);
-
         return new HolderComment(view);
     }
 
@@ -42,7 +41,6 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
     public void onBindViewHolder(@NonNull HolderComment holder, int position) {
 
         //Get data
-
         ModelComment modelComment = commentArrayList.get(position);
         String id = modelComment.getId();
         String name = modelComment.getName();
@@ -51,7 +49,6 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
         String image = modelComment.getProfileImage();
 
         //date conversion
-
         String gmtDate = published;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); //   2022-06-06T06:53:00-07:00
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy K:mm a"); // 06/06/2022 15:53
@@ -59,13 +56,10 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
         try{
             Date date = dateFormat.parse(gmtDate);
             formattedDate = dateFormat2.format(date);
-
-
         }catch(Exception e){
             formattedDate = published;
             e.printStackTrace();
         }
-
         //Set data
         holder.nameTV.setText(name);
         holder.dateTV.setText(formattedDate);
@@ -75,7 +69,6 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
         }catch(Exception e){
             holder.profileIV.setImageResource(R.drawable.ic_baseline_person_24);
         }
-
     }
 
     @Override
@@ -87,7 +80,6 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
     class HolderComment extends RecyclerView.ViewHolder{
 
         // view declaration
-
         ImageView profileIV;
         TextView nameTV, dateTV, commentTV;
 

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEdt;
     private ImageButton searchBtn;
 
-    private String url=""; // url for getting posts
+    private String url = ""; // url for getting posts
     private String nextToken = ""; // next page token for more posts
     private boolean isSearch = false;
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         postArrayList = new ArrayList<>();
         postArrayList.clear();
-        
+
         loadPosts();
 
         // on click for new page button
@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // text from EditText to string
                 String query = searchEdt.getText().toString().trim();
-                if(TextUtils.isEmpty(query)){
+                if (TextUtils.isEmpty(query)) {
                     loadPosts();
-                }else{
+                } else {
                     searchPosts(query);
                 }
             }
@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // text from EditText to string
                 String query = searchEdt.getText().toString().trim();
-                if(TextUtils.isEmpty(query)){
+                if (TextUtils.isEmpty(query)) {
                     loadPosts();
-                }else{
+                } else {
                     searchPosts(query);
                 }
             }
@@ -105,24 +105,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "searchPosts: isSearch: " + isSearch);
 
         progressDialog.show();
-        if(nextToken.equals("")){
+        if (nextToken.equals("")) {
             Log.d(TAG, "searchPosts: Next Page token is empty, no more pages");
-            url = "https://www.googleapis.com/blogger/v3/blogs/" +Constants.BLOG_ID
-                    +"/posts/search?q=" + query
-                    +"&key="+Constants.API_KEY;
-        }
-        else if(nextToken.equals("end")){
+            url = "https://www.googleapis.com/blogger/v3/blogs/" + Constants.BLOG_ID
+                    + "/posts/search?q=" + query
+                    + "&key=" + Constants.API_KEY;
+        } else if (nextToken.equals("end")) {
             Log.d(TAG, "searchPosts: Next Page token is empty- end");
             Toast.makeText(this, "No more posts available", Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
             return;
-        }
-        else{
+        } else {
             Log.d(TAG, "searchPosts: Next token: " + nextToken);
-            url = "https://www.googleapis.com/blogger/v3/blogs/" +Constants.BLOG_ID
-                    +"/posts/search?q=" + query
-                    +"&pageToken=" + nextToken
-                    +"&key="+Constants.API_KEY;
+            url = "https://www.googleapis.com/blogger/v3/blogs/" + Constants.BLOG_ID
+                    + "/posts/search?q=" + query
+                    + "&pageToken=" + nextToken
+                    + "&key=" + Constants.API_KEY;
         }
         Log.d(TAG, "searchPosts: URL: " + url);
 
@@ -135,14 +133,13 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Log.d(TAG, "onResponse: " + response);
 
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(response);
 
                     try {
                         nextToken = jsonObject.getString("nextPageToken");
-                        Log.d(TAG, "onResponse: NextPageToken: " +nextToken );
-                    }
-                    catch (Exception e){
+                        Log.d(TAG, "onResponse: NextPageToken: " + nextToken);
+                    } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "End of page", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onResponse: Reached the end of a page" + e.getMessage());
                         nextToken = "end";
@@ -150,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     // getting data from Json
                     JSONArray jsonArray = jsonObject.getJSONArray("items");
 
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         try {
                             // data GET
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -164,48 +161,40 @@ public class MainActivity extends AppCompatActivity {
                             String authorName = jsonObject1.getJSONObject("author").getString("displayName");
 
                             // data SET
-                            ModelPost modelPost = new ModelPost(""+authorName,
-                                    ""+content,
-                                    ""+id,
-                                    ""+published,
-                                    ""+selfLink,
-                                    ""+title,
-                                    ""+updated,
-                                    ""+url);
+                            ModelPost modelPost = new ModelPost("" + authorName,
+                                    "" + content,
+                                    "" + id,
+                                    "" + published,
+                                    "" + selfLink,
+                                    "" + title,
+                                    "" + updated,
+                                    "" + url);
 
                             // add to list
-
                             postArrayList.add(modelPost);
-
-                        }
-                        catch (Exception e){
+                        } catch (Exception e) {
                             Log.d(TAG, "onResponse: 1: " + e.getMessage());
-                            Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-
                     }
-
                     // adapter
                     adapterPost = new AdapterPost(MainActivity.this, postArrayList);
                     postsRV.setAdapter(adapterPost);
                     progressDialog.dismiss();
-                }
-                catch (Exception e ){
-                    Log.d(TAG, "onResponse: 2: "+e.getMessage());
-                    Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Log.d(TAG, "onResponse: 2: " + e.getMessage());
+                    Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: "+error.getMessage());
-                Toast.makeText(MainActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                Toast.makeText(MainActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
-
-
         // queue request
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
@@ -216,29 +205,26 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "loadPosts: isSearch: " + isSearch);
 
         progressDialog.show();
-        if(nextToken.equals("")){
+        if (nextToken.equals("")) {
             Log.d(TAG, "loadPosts: Next Page token is empty, no more pages");
-            url = "https://www.googleapis.com/blogger/v3/blogs/" +Constants.BLOG_ID
-                    +"/posts?maxResults=" +Constants.MAX_POST_RESULT
-                    +"&key="+Constants.API_KEY;
-        }
-        else if(nextToken.equals("end")){
+            url = "https://www.googleapis.com/blogger/v3/blogs/" + Constants.BLOG_ID
+                    + "/posts?maxResults=" + Constants.MAX_POST_RESULT
+                    + "&key=" + Constants.API_KEY;
+        } else if (nextToken.equals("end")) {
             Log.d(TAG, "loadPosts: Next Page token is empty- end");
             Toast.makeText(this, "No more posts available", Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
             return;
-        }
-        else{
+        } else {
             Log.d(TAG, "loadPosts: Next token: " + nextToken);
-            url = "https://www.googleapis.com/blogger/v3/blogs/" +Constants.BLOG_ID
-                    +"/posts?maxResults=" +Constants.MAX_POST_RESULT
-                    +"&pageToken=" + nextToken
-                    +"&key="+Constants.API_KEY;
+            url = "https://www.googleapis.com/blogger/v3/blogs/" + Constants.BLOG_ID
+                    + "/posts?maxResults=" + Constants.MAX_POST_RESULT
+                    + "&pageToken=" + nextToken
+                    + "&key=" + Constants.API_KEY;
         }
         Log.d(TAG, "loadPost: URL: " + url);
 
         // data request with GET
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -246,14 +232,13 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Log.d(TAG, "onResponse: " + response);
 
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(response);
 
                     try {
                         nextToken = jsonObject.getString("nextPageToken");
-                        Log.d(TAG, "onResponse: NextPageToken: " +nextToken );
-                    }
-                    catch (Exception e){
+                        Log.d(TAG, "onResponse: NextPageToken: " + nextToken);
+                    } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "End of page", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onResponse: Reached the end of a page" + e.getMessage());
                         nextToken = "end";
@@ -261,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                     // getting data from Json
                     JSONArray jsonArray = jsonObject.getJSONArray("items");
 
-                    for(int i=0; i<jsonArray.length(); i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         try {
                             // data GET
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -275,23 +260,20 @@ public class MainActivity extends AppCompatActivity {
                             String authorName = jsonObject1.getJSONObject("author").getString("displayName");
 
                             // data SET
-                            ModelPost modelPost = new ModelPost(""+authorName,
-                                    ""+content,
-                                    ""+id,
-                                    ""+published,
-                                    ""+selfLink,
-                                    ""+title,
-                                    ""+updated,
-                                    ""+url);
+                            ModelPost modelPost = new ModelPost("" + authorName,
+                                    "" + content,
+                                    "" + id,
+                                    "" + published,
+                                    "" + selfLink,
+                                    "" + title,
+                                    "" + updated,
+                                    "" + url);
 
                             // add to list
-
                             postArrayList.add(modelPost);
-
-                        }
-                        catch (Exception e){
+                        } catch (Exception e) {
                             Log.d(TAG, "onResponse: 1: " + e.getMessage());
-                            Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -300,22 +282,19 @@ public class MainActivity extends AppCompatActivity {
                     adapterPost = new AdapterPost(MainActivity.this, postArrayList);
                     postsRV.setAdapter(adapterPost);
                     progressDialog.dismiss();
-                }
-                catch (Exception e ){
-                    Log.d(TAG, "onResponse: 2: "+e.getMessage());
-                    Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                } catch (Exception e) {
+                    Log.d(TAG, "onResponse: 2: " + e.getMessage());
+                    Toast.makeText(MainActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: "+error.getMessage());
-                Toast.makeText(MainActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                Toast.makeText(MainActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
-
         // queue request
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
