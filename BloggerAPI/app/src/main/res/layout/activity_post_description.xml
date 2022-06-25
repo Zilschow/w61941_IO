@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    tools:context=".PostDescriptionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+            <!--Title of the post-->
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/alata"
+                android:textStyle="bold"/>
+            <!--Author info and date-->
+            <TextView
+                android:id="@+id/publishedInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="published by" />
+            <!--Post details-->
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <!--Comments-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/orange" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Comments: "
+                android:textColor="@color/gray"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentsRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_comment"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

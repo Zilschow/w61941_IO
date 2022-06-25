@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="5dp"
+    android:background="@color/white"
+    android:padding="5dp"
+    >
+
+    <ImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_baseline_navigate_next_24"
+        app:tint="@color/black" />
+    <!--Title of a post -->
+    <TextView
+        android:id="@+id/postTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toStartOf="@+id/btn_more"
+        android:fontFamily="@font/alata"
+        android:text="Title of a post"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="@tools:sample/full_names" />
+
+    <!--Region name -->
+    <TextView
+        android:id="@+id/regionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/postTitle"
+        android:layout_toStartOf="@id/btn_more"
+        android:fontFamily="@font/alata"
+        android:text="Nazwa dzielnicy"
+        android:textColor="@color/black"
+        tools:text="@tools:sample/date/ddmmyy" />
+
+    <!--1st line of a post -->
+    <TextView
+        android:id="@+id/postDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/regionName"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="@tools:sample/lorem/random"
+        />
+</RelativeLayout>
